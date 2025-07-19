@@ -178,7 +178,7 @@ def analyse_spectrum(data_file, sum_of_sigmas):
     plt.title(f'Спектр SiPM номер '+sipm_num+' при напряжении питания ' + str(voltages_for_graph[voltage])+' В',
               fontsize=30)
     plt.legend(fontsize=20)
-    plt.savefig(fname=f'..\\results\\spectrums\\sipm{sipm_num}_{voltage}.png', dpi=250)
+    plt.savefig(fname=f'..sipm{sipm_num}_{voltage}.png', dpi=250) # Put here your path, where you want to see resulting pictures
     fig.clear()
     plt.close()
     return sum_of_sigmas, chan_info
@@ -201,9 +201,9 @@ if __name__ == "__main__":
     global found_sigmas
     global prominences
     global voltages_for_graph
-    voltages_for_graph = {'16V': 25.8, '32V': 26.0, '48V': 26.3, '64V': 26.6, '80V': 26.8, '96V': 27.2, '112V': 27.3}
-    file_with_M = f'..\\results\\sipms.dat'
-    V_for_file = 'N_sipm\t'
+    voltages_for_graph = {'16V': 25.8, '32V': 26.0, '48V': 26.3, '64V': 26.6, '80V': 26.8, '96V': 27.2, '112V': 27.3}     # code works only with this voltages, for other voltages u need to rewrite code (112V - 112 - codes ADC, not Volts)
+    file_with_M = f'' # Put here your path, where you want to see resulting file with Gain
+    V_for_file = 'N_sipm\t' 
     V = [26.3, 26.8, 27.3]
     count = 1
     for volts in V:
@@ -226,7 +226,7 @@ if __name__ == "__main__":
 
     found_means = {}
     found_sigmas = {}
-    sipm_path = "..\\sipm_\\"
+    sipm_path = ""    # Put here your path to sipm files 
     sipm_list = os.listdir(sipm_path)
     data_path = []
     Y_all = []
@@ -237,7 +237,7 @@ if __name__ == "__main__":
         files = [j + i for i in os.listdir(j)]
         deltas = {'32V': 0, '48V': 0, '64V': 0, '80V': 0, '96V': 0, '112V': 0}
         for file in files:
-            voltage = file.split("\\")[-1].split(".")[0].split("_")[-1]
+            voltage = file.split("\\")[-1].split(".")[0].split("_")[-1]    # change this if your file has another name
             sum_of_sigmas = 0
             sum_of_sigmas, chan_info = analyse_spectrum(file, sum_of_sigmas)
             #print(sum_of_sigmas)
@@ -247,7 +247,7 @@ if __name__ == "__main__":
         #print(deltas)
         Aga = find_M()
         #print(Aga)
-        sipm_num = file.split("\\")[-1].split(".")[0].split("_")[-2]
+        sipm_num = file.split("\\")[-1].split(".")[0].split("_")[-2]    # change this if your file has another name
         names_all.append('sipm '+sipm_num)
         V_for_file += sipm_num+'\t'
         Coefs = []
@@ -275,7 +275,7 @@ if __name__ == "__main__":
         plt.xlabel('Напряжение питания, В', fontsize=24)
         plt.ylabel('Коэффициент усиления, 10\u2076', fontsize=24)
         plt.title(f'Зависимость коэффициента усиления от напряжения для SiPM №' + sipm_num, fontsize=22)
-        plt.savefig(fname=f'..\\results\\coefficients\\M{sipm_num}.png', dpi=400)
+        plt.savefig(fname=f'M{sipm_num}.png', dpi=400)
         print(Coefs)
         plt.close()
     fig, ax = plt.subplots(figsize=[12, 9])
@@ -289,7 +289,7 @@ if __name__ == "__main__":
     plt.xlabel('Напряжение питания, В', fontsize=24)
     plt.ylabel('Коэффициент усиления, 10\u2076', fontsize=24)
     plt.title(f'Зависимость коэффициента усиления от напряжения для всех SiPM', fontsize=22)
-    plt.savefig(fname=f'..\\results\\M_all.png', dpi=400)
+    plt.savefig(fname=f'..\\results\\M_all.png', dpi=400) # Put here your path, where you want to see resulting pictures
     plt.close()
 
     with open(file_with_M, 'w') as f:
